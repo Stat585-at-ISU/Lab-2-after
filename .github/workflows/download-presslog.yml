@@ -5,7 +5,7 @@ on:
     - cron: "* * * * *"
 
 jobs:
-  issue:
+  download-presslog:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Download a file
