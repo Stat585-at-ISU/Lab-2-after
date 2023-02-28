@@ -2,14 +2,14 @@ name: "Download a file regularly"
 
 on:
   schedule:
-  - cron: "0 2 * * *"
+  - cron: "* * * * *"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: valitydev/action-download-file@v1.0.6
-          with:
+    steps:
+      - uses: actions/checkout@v3
+      - uses: valitydev/action-download-file@v1.0.6
+        with:
             url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
             target-path: presslogs/
