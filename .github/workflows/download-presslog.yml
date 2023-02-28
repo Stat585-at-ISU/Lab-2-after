@@ -1,0 +1,14 @@
+name: Download Presslog
+
+on:
+  schedule:
+    - cron: "* * * * *"
+
+jobs:
+  issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Download a file
+        run: wget -nc -P presslogs/ https://data.city.ames.ia.us/publicinformation/PressLog.pdf
+        shell: bash
+        
