@@ -1,8 +1,8 @@
-name: "Download a file regularly"
+name: Download Presslog
 
 on:
   schedule:
-  - cron: "* * * * *"
+  - cron: "12 * * * *"
 
 jobs:
   deploy:
