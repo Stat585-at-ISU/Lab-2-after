@@ -2,7 +2,7 @@ name: Download Presslog
 
 on:
   schedule:
-  - cron: "22 * * * *"
+  - cron: "* * * * *"
 
 jobs:
   deploy:
