@@ -1,7 +1,7 @@
 name: Download Presslog
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "0 16 * * *"
 
 jobs:
   download-presslog:
