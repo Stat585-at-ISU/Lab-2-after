@@ -6,6 +6,7 @@ on:
 
 jobs:
   download-presslog:
+    name: Download Presslog
     runs-on: ubuntu-latest
     steps:
       - name: Download a file
