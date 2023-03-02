@@ -117,7 +117,7 @@ one_page <- function(plogi) {
 }
 ```
 
-Download the current press log, save it into a file called PressLog-XXX.pdf, where XXX contains a string of today's date.
+Download the current press log, save it into a file called PressLog-XXX.pdf, where XXX contains a string of today's date. 
 
 ```{r}
 todays_pdf <- sprintf("presslogs/PressLog-%s.pdf", lubridate::today())
