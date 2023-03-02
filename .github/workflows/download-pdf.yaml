@@ -19,7 +19,7 @@ jobs:
                 
       - name: Download presslog
         uses: valitydev/action-download-file@v1
-          with:
+        with:
             url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
             target-path: .
             
