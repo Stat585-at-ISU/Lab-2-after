@@ -1,0 +1,19 @@
+name: Download a file
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+
+        - uses: valitydev/action-download-file@v1
+          with:
+            url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
+            target-path: .
+            
