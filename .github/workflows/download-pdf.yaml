@@ -9,10 +9,25 @@ on:
 jobs:
   download-pdf:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-        - uses: actions/checkout@v3
-        - uses: valitydev/action-download-file@v1
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          set-safe-directory: 'presslogs'
+                
+      - name: Download presslog
+        uses: valitydev/action-download-file@v1
           with:
             url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
             target-path: .
             
+      - name: Commit result
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git add "Presslog*.pdf"
+          git commit "*.pdf" -m 'Added presslog' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
+
