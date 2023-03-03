@@ -22,6 +22,10 @@ jobs:
         with:
             url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
             target-path: presslogs
+
+      - name: Rename file
+        run: |
+          mv presslogs/PressLog.pdf  {{ date "+presslogs/PressLog-%Y-%m-%d.pdf" }}
             
       - name: Commit result
         run: |
