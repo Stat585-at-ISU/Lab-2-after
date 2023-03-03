@@ -25,7 +25,8 @@ jobs:
 
       - name: Rename file
         run: |
-          mv presslogs/PressLog.pdf  {{ date "+presslogs/PressLog-%Y-%m-%d.pdf" }}
+          datedpdf=$(date "+PressLog-%Y-%m-%d.pdf")
+          mv presslogs/PressLog.pdf presslogs/$datedpdf
             
       - name: Commit result
         run: |
