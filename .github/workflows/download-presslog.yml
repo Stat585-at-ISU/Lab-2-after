@@ -2,17 +2,35 @@ name: Download Presslog
 on:
   schedule:
     - cron: "0 16 * * *"
-
+    
 jobs:
-  download-presslog:
-    name: Download Presslog
+  download-pdf:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Download a file
-        uses: valitydev/action-download-file@v1.0.6
+      - name: Checkout repo
+        uses: actions/checkout@v3
         with:
-          # URL to file
-          url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
-          # Target path
-          target-path: presslogs/
+          set-safe-directory: 'presslogs'
+                
+      - name: Download presslog
+        uses: valitydev/action-download-file@v1
+        with:
+            url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
+            target-path: presslogs
+
+      - name: Rename file
+        run: |
+          datedpdf=$(date "+PressLog-%Y-%m-%d.pdf")
+          mv presslogs/PressLog.pdf presslogs/$datedpdf
+            
+      - name: Commit result
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git add presslogs
+          git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
+
         
