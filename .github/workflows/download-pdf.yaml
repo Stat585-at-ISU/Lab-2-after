@@ -21,13 +21,13 @@ jobs:
         uses: valitydev/action-download-file@v1
         with:
             url: https://data.city.ames.ia.us/publicinformation/PressLog.pdf
-            target-path: presslogs/PressLog2.pdf
+            target-path: presslogs
             
       - name: Commit result
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git add presslogs/
+          git add presslogs
           git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
 
