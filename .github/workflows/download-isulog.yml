@@ -1,0 +1,50 @@
+name: Download ISU Crime log
+on:
+  push
+
+jobs:
+  download-isu-log:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest,   r: 'release'}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Install dependencies
+        run: |
+          install.packages(rvest, dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Download ISU log
+        run: |
+          source("isuload.R")
+        shell: Rscript {0}
+
+      - name: Commit result
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git add isulogs
+          git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
+
+
