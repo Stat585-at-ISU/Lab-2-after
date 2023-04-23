@@ -27,11 +27,6 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
-      - name: Install dependencies
-        run: |
-          install.packages("rvest", dependencies = TRUE)
-        shell: Rscript {0}
-
       - name: Download ISU log
         run: |
           source("isuload.R")
