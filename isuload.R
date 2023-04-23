@@ -1,4 +1,4 @@
-install.packages(rvest)
+install.packages("rvest")
 library(rvest)
 
 doc <- read_html("https://www.police.iastate.edu/crime-log/")
