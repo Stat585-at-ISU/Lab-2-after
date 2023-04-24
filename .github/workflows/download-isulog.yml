@@ -1,43 +1,27 @@
-name: Download ISU Crime log
-on:
-  push
+name: Download Presslog
+on: push
 
 jobs:
-  download-isu-log:
-    runs-on: ${{ matrix.config.os }}
+  download-pdf:
+  runs-on: ubuntu-latest
+env:
+  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+steps:
+  - name: Checkout repo
+uses: actions/checkout@v3
+with:
+  set-safe-directory: 'isulogs'
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+- name: Download isulog
+uses: valitydev/action-download-file@v1
+with:
+  url: $(date "+https://www.police.iastate.edu/wp-content/uploads/%Y/%m/%Y-Crime-Log-%-m_%d_%y.pdf")
+target-path: isulogs
 
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - {os: ubuntu-latest,   r: 'release'}
-
-    env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      RSPM: ${{ matrix.config.rspm }}
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
-
-      - name: Download ISU log
-        run: |
-          source("isuload.R")
-        shell: Rscript {0}
-
-      - name: Commit result
-        run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git add isulogs
-          git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
-          git push origin || echo "No changes to commit"
-
-
+- name: Commit result
+run: |
+  git config --local user.name "$GITHUB_ACTOR"
+git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+git add isulogs
+git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
+git push origin || echo "No changes to commit"
