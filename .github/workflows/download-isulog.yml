@@ -1,8 +1,10 @@
 name: Download Presslog
-on: push
+on:
+  schedule:
+    - cron: "0 16 * * *"
 
 jobs:
-  download-pdf:
+  download-isu-log:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
