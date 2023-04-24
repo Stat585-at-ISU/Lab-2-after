@@ -4,24 +4,24 @@ on: push
 jobs:
   download-pdf:
   runs-on: ubuntu-latest
-env:
-  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-steps:
-  - name: Checkout repo
-uses: actions/checkout@v3
-with:
-  set-safe-directory: 'isulogs'
+  env:
+    GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        set-safe-directory: 'isulogs'
 
-- name: Download isulog
-uses: valitydev/action-download-file@v1
-with:
-  url: $(date "+https://www.police.iastate.edu/wp-content/uploads/%Y/%m/%Y-Crime-Log-%-m_%d_%y.pdf")
-target-path: isulogs
+    - name: Download isulog
+      uses: valitydev/action-download-file@v1
+      with:
+       url: $(date "+https://www.police.iastate.edu/wp-content/uploads/%Y/%m/%Y-Crime-Log-%-m_%d_%y.pdf")
+       target-path: isulogs
 
-- name: Commit result
-run: |
-  git config --local user.name "$GITHUB_ACTOR"
-git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-git add isulogs
-git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
-git push origin || echo "No changes to commit"
+    - name: Commit result
+      run: |
+        git config --local user.name "$GITHUB_ACTOR"
+        git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git add isulogs
+        git commit "*.pdf" -m 'Added pdf file' || echo "No changes to commit"
+        git push origin || echo "No changes to commit"
