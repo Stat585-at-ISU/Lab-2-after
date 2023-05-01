@@ -1,4 +1,4 @@
-name: Download Presslog
+name: Download ISU Presslog
 on:
   schedule:
     - cron: "0 16 * * *"
